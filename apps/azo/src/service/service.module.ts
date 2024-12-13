@@ -3,12 +3,11 @@ import { AuthModule } from "../auth/auth.module";
 import { ServiceModuleBase } from "./base/service.module.base";
 import { ServiceService } from "./service.service";
 import { ServiceController } from "./service.controller";
-import { ServiceResolver } from "./service.resolver";
 
 @Module({
   imports: [ServiceModuleBase, forwardRef(() => AuthModule)],
   controllers: [ServiceController],
-  providers: [ServiceService, ServiceResolver],
+  providers: [ServiceService],
   exports: [ServiceService],
 })
 export class ServiceModule {}
