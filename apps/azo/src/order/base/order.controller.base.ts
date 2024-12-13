@@ -26,6 +26,9 @@ import { Order } from "./Order";
 import { OrderFindManyArgs } from "./OrderFindManyArgs";
 import { OrderWhereUniqueInput } from "./OrderWhereUniqueInput";
 import { OrderUpdateInput } from "./OrderUpdateInput";
+import { OrderDetailFindManyArgs } from "../../orderDetail/base/OrderDetailFindManyArgs";
+import { OrderDetail } from "../../orderDetail/base/OrderDetail";
+import { OrderDetailWhereUniqueInput } from "../../orderDetail/base/OrderDetailWhereUniqueInput";
 
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
@@ -61,6 +64,7 @@ export class OrderControllerBase {
         id: true,
         orderDate: true,
         orderNumber: true,
+        paymentStatus: true,
         status: true,
         totalAmount: true,
         updatedAt: true,
@@ -95,6 +99,7 @@ export class OrderControllerBase {
         id: true,
         orderDate: true,
         orderNumber: true,
+        paymentStatus: true,
         status: true,
         totalAmount: true,
         updatedAt: true,
@@ -130,6 +135,7 @@ export class OrderControllerBase {
         id: true,
         orderDate: true,
         orderNumber: true,
+        paymentStatus: true,
         status: true,
         totalAmount: true,
         updatedAt: true,
@@ -182,6 +188,7 @@ export class OrderControllerBase {
           id: true,
           orderDate: true,
           orderNumber: true,
+          paymentStatus: true,
           status: true,
           totalAmount: true,
           updatedAt: true,
@@ -225,6 +232,7 @@ export class OrderControllerBase {
           id: true,
           orderDate: true,
           orderNumber: true,
+          paymentStatus: true,
           status: true,
           totalAmount: true,
           updatedAt: true,
@@ -244,5 +252,118 @@ export class OrderControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @common.Get("/:id/orderDetails")
+  @ApiNestedQuery(OrderDetailFindManyArgs)
+  @nestAccessControl.UseRoles({
+    resource: "OrderDetail",
+    action: "read",
+    possession: "any",
+  })
+  async findOrderDetails(
+    @common.Req() request: Request,
+    @common.Param() params: OrderWhereUniqueInput
+  ): Promise<OrderDetail[]> {
+    const query = plainToClass(OrderDetailFindManyArgs, request.query);
+    const results = await this.service.findOrderDetails(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+        discount: true,
+        id: true,
+
+        order: {
+          select: {
+            id: true,
+          },
+        },
+
+        price: true,
+
+        product: {
+          select: {
+            id: true,
+          },
+        },
+
+        quantity: true,
+        total: true,
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/orderDetails")
+  @nestAccessControl.UseRoles({
+    resource: "Order",
+    action: "update",
+    possession: "any",
+  })
+  async connectOrderDetails(
+    @common.Param() params: OrderWhereUniqueInput,
+    @common.Body() body: OrderDetailWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      orderDetails: {
+        connect: body,
+      },
+    };
+    await this.service.updateOrder({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/orderDetails")
+  @nestAccessControl.UseRoles({
+    resource: "Order",
+    action: "update",
+    possession: "any",
+  })
+  async updateOrderDetails(
+    @common.Param() params: OrderWhereUniqueInput,
+    @common.Body() body: OrderDetailWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      orderDetails: {
+        set: body,
+      },
+    };
+    await this.service.updateOrder({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/orderDetails")
+  @nestAccessControl.UseRoles({
+    resource: "Order",
+    action: "update",
+    possession: "any",
+  })
+  async disconnectOrderDetails(
+    @common.Param() params: OrderWhereUniqueInput,
+    @common.Body() body: OrderDetailWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      orderDetails: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateOrder({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

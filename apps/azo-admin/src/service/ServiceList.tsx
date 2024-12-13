@@ -16,7 +16,6 @@ export const ServiceList = (props: ListProps): React.ReactElement => {
         <TextField label="details" source="details" />
         <TextField label="ID" source="id" />
         <TextField label="name" source="name" />
-        <TextField label="provider" source="provider" />
         <TextField label="type" source="typeField" />
         <DateField source="updatedAt" label="Updated At" />{" "}
       </Datagrid>

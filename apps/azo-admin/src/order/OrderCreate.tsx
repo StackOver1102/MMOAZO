@@ -5,12 +5,15 @@ import {
   SimpleForm,
   CreateProps,
   DateTimeInput,
+  ReferenceArrayInput,
+  SelectArrayInput,
   TextInput,
   SelectInput,
   NumberInput,
   ReferenceInput,
 } from "react-admin";
 
+import { OrderDetailTitle } from "../orderDetail/OrderDetailTitle";
 import { UserTitle } from "../user/UserTitle";
 
 export const OrderCreate = (props: CreateProps): React.ReactElement => {
@@ -18,7 +21,25 @@ export const OrderCreate = (props: CreateProps): React.ReactElement => {
     <Create {...props}>
       <SimpleForm>
         <DateTimeInput label="orderDate" source="orderDate" />
+        <ReferenceArrayInput source="orderDetails" reference="OrderDetail">
+          <SelectArrayInput
+            optionText={OrderDetailTitle}
+            parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+            format={(value: any) => value && value.map((v: any) => v.id)}
+          />
+        </ReferenceArrayInput>
         <TextInput label="orderNumber" source="orderNumber" />
+        <SelectInput
+          source="paymentStatus"
+          label="PaymentStatus"
+          choices={[
+            { label: "Unpaid", value: "Unpaid" },
+            { label: "paid", value: "Paid" },
+          ]}
+          optionText="label"
+          allowEmpty
+          optionValue="value"
+        />
         <SelectInput
           source="status"
           label="status"

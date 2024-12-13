@@ -15,16 +15,18 @@ import { ApiProperty } from "@nestjs/swagger";
 import {
   IsDate,
   IsOptional,
+  ValidateNested,
   IsString,
   MaxLength,
   IsEnum,
   IsNumber,
   Min,
   Max,
-  ValidateNested,
 } from "class-validator";
 
 import { Type } from "class-transformer";
+import { OrderDetailCreateNestedManyWithoutOrdersInput } from "./OrderDetailCreateNestedManyWithoutOrdersInput";
+import { EnumOrderPaymentStatus } from "./EnumOrderPaymentStatus";
 import { EnumOrderStatus } from "./EnumOrderStatus";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 
@@ -43,6 +45,18 @@ class OrderCreateInput {
 
   @ApiProperty({
     required: false,
+    type: () => OrderDetailCreateNestedManyWithoutOrdersInput,
+  })
+  @ValidateNested()
+  @Type(() => OrderDetailCreateNestedManyWithoutOrdersInput)
+  @IsOptional()
+  @Field(() => OrderDetailCreateNestedManyWithoutOrdersInput, {
+    nullable: true,
+  })
+  orderDetails?: OrderDetailCreateNestedManyWithoutOrdersInput;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()
@@ -52,6 +66,17 @@ class OrderCreateInput {
     nullable: true,
   })
   orderNumber?: string | null;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumOrderPaymentStatus,
+  })
+  @IsEnum(EnumOrderPaymentStatus)
+  @IsOptional()
+  @Field(() => EnumOrderPaymentStatus, {
+    nullable: true,
+  })
+  paymentStatus?: "Unpaid" | "Paid" | null;
 
   @ApiProperty({
     required: false,

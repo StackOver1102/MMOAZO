@@ -7,7 +7,6 @@ export type Service = {
   id: string;
   name: string | null;
   products?: Array<Product>;
-  provider: string | null;
   typeField?: "Option1" | null;
   updatedAt: Date;
 };

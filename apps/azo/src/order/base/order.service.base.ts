@@ -10,9 +10,11 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
+
 import {
   Prisma,
   Order as PrismaOrder,
+  OrderDetail as PrismaOrderDetail,
   User as PrismaUser,
 } from "@prisma/client";
 
@@ -37,6 +39,17 @@ export class OrderServiceBase {
   }
   async deleteOrder(args: Prisma.OrderDeleteArgs): Promise<PrismaOrder> {
     return this.prisma.order.delete(args);
+  }
+
+  async findOrderDetails(
+    parentId: string,
+    args: Prisma.OrderDetailFindManyArgs
+  ): Promise<PrismaOrderDetail[]> {
+    return this.prisma.order
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .orderDetails(args);
   }
 
   async getUser(parentId: string): Promise<PrismaUser | null> {

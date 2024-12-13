@@ -8,6 +8,5 @@ export type ServiceWhereInput = {
   id?: StringFilter;
   name?: StringNullableFilter;
   products?: ProductListRelationFilter;
-  provider?: StringNullableFilter;
   typeField?: "Option1";
 };

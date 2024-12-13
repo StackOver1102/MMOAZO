@@ -6,7 +6,6 @@ export type ServiceOrderByInput = {
   details?: SortOrder;
   id?: SortOrder;
   name?: SortOrder;
-  provider?: SortOrder;
   typeField?: SortOrder;
   updatedAt?: SortOrder;
 };

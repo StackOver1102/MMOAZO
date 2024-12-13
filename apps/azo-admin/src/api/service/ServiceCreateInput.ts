@@ -5,6 +5,5 @@ export type ServiceCreateInput = {
   details?: string | null;
   name?: string | null;
   products?: ProductCreateNestedManyWithoutServicesInput;
-  provider?: string | null;
   typeField?: "Option1" | null;
 };

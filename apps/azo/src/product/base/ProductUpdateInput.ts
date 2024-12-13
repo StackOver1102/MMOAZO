@@ -22,6 +22,7 @@ import {
   Max,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { OrderDetailUpdateManyWithoutProductsInput } from "./OrderDetailUpdateManyWithoutProductsInput";
 import { ServiceWhereUniqueInput } from "../../service/base/ServiceWhereUniqueInput";
 
 @InputType()
@@ -49,6 +50,18 @@ class ProductUpdateInput {
     nullable: true,
   })
   name?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => OrderDetailUpdateManyWithoutProductsInput,
+  })
+  @ValidateNested()
+  @Type(() => OrderDetailUpdateManyWithoutProductsInput)
+  @IsOptional()
+  @Field(() => OrderDetailUpdateManyWithoutProductsInput, {
+    nullable: true,
+  })
+  orderDetails?: OrderDetailUpdateManyWithoutProductsInput;
 
   @ApiProperty({
     required: false,

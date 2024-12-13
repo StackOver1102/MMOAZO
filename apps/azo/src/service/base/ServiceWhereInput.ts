@@ -78,17 +78,6 @@ class ServiceWhereInput {
 
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
-  })
-  @Type(() => StringNullableFilter)
-  @IsOptional()
-  @Field(() => StringNullableFilter, {
-    nullable: true,
-  })
-  provider?: StringNullableFilter;
-
-  @ApiProperty({
-    required: false,
     enum: EnumServiceTypeField,
   })
   @IsEnum(EnumServiceTypeField)

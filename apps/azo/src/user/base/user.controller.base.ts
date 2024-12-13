@@ -234,6 +234,7 @@ export class UserControllerBase {
         id: true,
         orderDate: true,
         orderNumber: true,
+        paymentStatus: true,
         status: true,
         totalAmount: true,
         updatedAt: true,
