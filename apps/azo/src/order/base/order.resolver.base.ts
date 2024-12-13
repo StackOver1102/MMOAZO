@@ -26,6 +26,8 @@ import { OrderFindUniqueArgs } from "./OrderFindUniqueArgs";
 import { CreateOrderArgs } from "./CreateOrderArgs";
 import { UpdateOrderArgs } from "./UpdateOrderArgs";
 import { DeleteOrderArgs } from "./DeleteOrderArgs";
+import { OrderDetailFindManyArgs } from "../../orderDetail/base/OrderDetailFindManyArgs";
+import { OrderDetail } from "../../orderDetail/base/OrderDetail";
 import { User } from "../../user/base/User";
 import { OrderService } from "../order.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
@@ -153,6 +155,26 @@ export class OrderResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [OrderDetail], { name: "orderDetails" })
+  @nestAccessControl.UseRoles({
+    resource: "OrderDetail",
+    action: "read",
+    possession: "any",
+  })
+  async findOrderDetails(
+    @graphql.Parent() parent: Order,
+    @graphql.Args() args: OrderDetailFindManyArgs
+  ): Promise<OrderDetail[]> {
+    const results = await this.service.findOrderDetails(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)

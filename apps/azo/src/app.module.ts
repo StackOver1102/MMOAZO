@@ -7,6 +7,7 @@ import { ServiceModule } from "./service/service.module";
 import { ProductModule } from "./product/product.module";
 import { DetailProductModule } from "./detailProduct/detailProduct.module";
 import { OrderModule } from "./order/order.module";
+import { OrderDetailModule } from "./orderDetail/orderDetail.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -32,6 +33,7 @@ import { AuthModule } from "./auth/auth.module";
     ProductModule,
     DetailProductModule,
     OrderModule,
+    OrderDetailModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

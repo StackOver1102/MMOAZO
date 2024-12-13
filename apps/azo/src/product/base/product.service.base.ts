@@ -15,6 +15,7 @@ import {
   Prisma,
   Product as PrismaProduct,
   DetailProduct as PrismaDetailProduct,
+  OrderDetail as PrismaOrderDetail,
   Service as PrismaService,
 } from "@prisma/client";
 
@@ -52,6 +53,17 @@ export class ProductServiceBase {
         where: { id: parentId },
       })
       .detailProducts(args);
+  }
+
+  async findOrderDetails(
+    parentId: string,
+    args: Prisma.OrderDetailFindManyArgs
+  ): Promise<PrismaOrderDetail[]> {
+    return this.prisma.product
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .orderDetails(args);
   }
 
   async getService(parentId: string): Promise<PrismaService | null> {

@@ -16,15 +16,17 @@ import {
   IsDate,
   IsString,
   IsOptional,
+  ValidateNested,
   MaxLength,
   IsEnum,
   IsNumber,
   Min,
   Max,
-  ValidateNested,
 } from "class-validator";
 
 import { Type } from "class-transformer";
+import { OrderDetail } from "../../orderDetail/base/OrderDetail";
+import { EnumOrderPaymentStatus } from "./EnumOrderPaymentStatus";
 import { EnumOrderStatus } from "./EnumOrderStatus";
 import { User } from "../../user/base/User";
 
@@ -59,6 +61,15 @@ class Order {
 
   @ApiProperty({
     required: false,
+    type: () => [OrderDetail],
+  })
+  @ValidateNested()
+  @Type(() => OrderDetail)
+  @IsOptional()
+  orderDetails?: Array<OrderDetail>;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()
@@ -68,6 +79,17 @@ class Order {
     nullable: true,
   })
   orderNumber!: string | null;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumOrderPaymentStatus,
+  })
+  @IsEnum(EnumOrderPaymentStatus)
+  @IsOptional()
+  @Field(() => EnumOrderPaymentStatus, {
+    nullable: true,
+  })
+  paymentStatus?: "Unpaid" | "Paid" | null;
 
   @ApiProperty({
     required: false,

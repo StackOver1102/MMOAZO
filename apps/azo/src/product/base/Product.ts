@@ -25,6 +25,7 @@ import {
 
 import { Type } from "class-transformer";
 import { DetailProduct } from "../../detailProduct/base/DetailProduct";
+import { OrderDetail } from "../../orderDetail/base/OrderDetail";
 import { Service } from "../../service/base/Service";
 
 @ObjectType()
@@ -65,6 +66,15 @@ class Product {
     nullable: true,
   })
   name!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => [OrderDetail],
+  })
+  @ValidateNested()
+  @Type(() => OrderDetail)
+  @IsOptional()
+  orderDetails?: Array<OrderDetail>;
 
   @ApiProperty({
     required: false,

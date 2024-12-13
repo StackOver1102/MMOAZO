@@ -13,9 +13,11 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
-import { IsOptional, IsEnum, ValidateNested } from "class-validator";
+import { IsOptional, ValidateNested, IsEnum } from "class-validator";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
+import { OrderDetailListRelationFilter } from "../../orderDetail/base/OrderDetailListRelationFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { EnumOrderPaymentStatus } from "./EnumOrderPaymentStatus";
 import { EnumOrderStatus } from "./EnumOrderStatus";
 import { FloatNullableFilter } from "../../util/FloatNullableFilter";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
@@ -46,6 +48,18 @@ class OrderWhereInput {
 
   @ApiProperty({
     required: false,
+    type: () => OrderDetailListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => OrderDetailListRelationFilter)
+  @IsOptional()
+  @Field(() => OrderDetailListRelationFilter, {
+    nullable: true,
+  })
+  orderDetails?: OrderDetailListRelationFilter;
+
+  @ApiProperty({
+    required: false,
     type: StringNullableFilter,
   })
   @Type(() => StringNullableFilter)
@@ -54,6 +68,17 @@ class OrderWhereInput {
     nullable: true,
   })
   orderNumber?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumOrderPaymentStatus,
+  })
+  @IsEnum(EnumOrderPaymentStatus)
+  @IsOptional()
+  @Field(() => EnumOrderPaymentStatus, {
+    nullable: true,
+  })
+  paymentStatus?: "Unpaid" | "Paid";
 
   @ApiProperty({
     required: false,

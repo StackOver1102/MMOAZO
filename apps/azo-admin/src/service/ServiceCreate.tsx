@@ -26,7 +26,6 @@ export const ServiceCreate = (props: CreateProps): React.ReactElement => {
             format={(value: any) => value && value.map((v: any) => v.id)}
           />
         </ReferenceArrayInput>
-        <TextInput label="provider" source="provider" />
         <SelectInput
           source="typeField"
           label="type"

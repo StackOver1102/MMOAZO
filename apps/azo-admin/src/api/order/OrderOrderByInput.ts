@@ -5,6 +5,7 @@ export type OrderOrderByInput = {
   id?: SortOrder;
   orderDate?: SortOrder;
   orderNumber?: SortOrder;
+  paymentStatus?: SortOrder;
   status?: SortOrder;
   totalAmount?: SortOrder;
   updatedAt?: SortOrder;

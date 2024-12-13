@@ -37,6 +37,10 @@ import { OrderList } from "./order/OrderList";
 import { OrderCreate } from "./order/OrderCreate";
 import { OrderEdit } from "./order/OrderEdit";
 import { OrderShow } from "./order/OrderShow";
+import { OrderDetailList } from "./orderDetail/OrderDetailList";
+import { OrderDetailCreate } from "./orderDetail/OrderDetailCreate";
+import { OrderDetailEdit } from "./orderDetail/OrderDetailEdit";
+import { OrderDetailShow } from "./orderDetail/OrderDetailShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -105,6 +109,13 @@ const App = (): React.ReactElement => {
           edit={OrderEdit}
           create={OrderCreate}
           show={OrderShow}
+        />
+        <Resource
+          name="OrderDetail"
+          list={OrderDetailList}
+          edit={OrderDetailEdit}
+          create={OrderDetailCreate}
+          show={OrderDetailShow}
         />
       </Admin>
     </div>

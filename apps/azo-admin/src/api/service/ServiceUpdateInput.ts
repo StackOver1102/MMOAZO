@@ -5,6 +5,5 @@ export type ServiceUpdateInput = {
   details?: string | null;
   name?: string | null;
   products?: ProductUpdateManyWithoutServicesInput;
-  provider?: string | null;
   typeField?: "Option1" | null;
 };

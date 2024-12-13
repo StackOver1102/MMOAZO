@@ -18,6 +18,7 @@ export const OrderList = (props: ListProps): React.ReactElement => {
         <TextField label="ID" source="id" />
         <TextField label="orderDate" source="orderDate" />
         <TextField label="orderNumber" source="orderNumber" />
+        <TextField label="PaymentStatus" source="paymentStatus" />
         <TextField label="status" source="status" />
         <TextField label="totalAmount" source="totalAmount" />
         <DateField source="updatedAt" label="Updated At" />

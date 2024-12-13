@@ -22,6 +22,7 @@ import {
   Max,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { OrderDetailCreateNestedManyWithoutProductsInput } from "./OrderDetailCreateNestedManyWithoutProductsInput";
 import { ServiceWhereUniqueInput } from "../../service/base/ServiceWhereUniqueInput";
 
 @InputType()
@@ -49,6 +50,18 @@ class ProductCreateInput {
     nullable: true,
   })
   name?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => OrderDetailCreateNestedManyWithoutProductsInput,
+  })
+  @ValidateNested()
+  @Type(() => OrderDetailCreateNestedManyWithoutProductsInput)
+  @IsOptional()
+  @Field(() => OrderDetailCreateNestedManyWithoutProductsInput, {
+    nullable: true,
+  })
+  orderDetails?: OrderDetailCreateNestedManyWithoutProductsInput;
 
   @ApiProperty({
     required: false,
